@@ -17,7 +17,7 @@ class ExchangeTest extends TestCase
     protected function setUp(): void
     {
         $this->user = new User("leyla.lenoan@outlook.fr", "LE NOAN", "Leyla", 22);
-        $this->owner = new User("alex.lenoan@outlook.fr", "LE NOAN", "Alexandre", 16);
+        $this->owner = new User("alex.lenoan@outlook.fr", "LE NOAN", "Alexandre", 17);
         $this->product = new Product("Ordinateur", $this->owner);
 
         $this->emailSender = $this->createMock(EmailSender::class);
