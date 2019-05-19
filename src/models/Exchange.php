@@ -20,7 +20,7 @@ final class Exchange
         $this->dbConnection = $dbConnection;
     }
     
-    public function isValidDate() :bool {
+    public function isValidDate(): bool {
         $now = new DateTime();
         $nowTimestamp = $now->getTimestamp();
         $endDateTimestamp = $this->endDate->getTimestamp();
@@ -34,10 +34,7 @@ final class Exchange
 
     public function isValid()
     {
-        if (!$this->receiver || !$this->receiver->isValid() || !$this->product || !$this->product->isValid() || !$this->isValidDate()) {
-            return false;
-        }
-        return true;
+        return (!$this->receiver || !$this->receiver->isValid() || !$this->product || !$this->product->isValid() || !$this->isValidDate()) ? false : true;
     }
     
     public function save()

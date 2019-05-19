@@ -20,6 +20,11 @@ class ExchangeTest extends TestCase
         $this->owner = new User("alex.lenoan@outlook.fr", "LE NOAN", "Alexandre", 17);
         $this->product = new Product("Ordinateur", $this->owner);
 
+        $begin = new DateTime();
+        $begin->modify('+1 day');
+        $end = new DateTime();
+        $end->modify('+2 day');
+
         $this->emailSender = $this->createMock(EmailSender::class);
         $this->emailSender->expects($this->any())->method('sendEmail')->will($this->returnValue(true));
 
@@ -29,8 +34,8 @@ class ExchangeTest extends TestCase
         $this->exchange = new Exchange(
             $this->user,
             $this->product,
-            new DateTime('01-08-2019'),
-            new DateTime('30-09-2019'),
+            $begin,
+            $end,
             $this->emailSender,
             $this->dbConnection
         );
@@ -52,20 +57,20 @@ class ExchangeTest extends TestCase
         $this->assertEquals(true, $emailSenderMock->sendEmail("toto.test@outlook.fr", "Contenu de l'e-mail"));
     }
 
-    public function testisValidDateNominal(): void
+    public function testIsValidDateNominal(): void
     {
         $result = $this->exchange->isValidDate();
         $this->assertTrue($result);
     }
 
-    public function testisNotValidDateBecauseOfStartDateInPast(): void
+    public function testIsNotValidDateBecauseOfStartDateInPast(): void
     {
         $this->exchange->setStartDate(new DateTime('01-01-2000'));
         $result = $this->exchange->isValidDate();
         $this->assertFalse($result);
     }
 
-    public function testisNotValidDateBecauseOfInversedDates(): void
+    public function testIsNotValidDateBecauseOfInversedDates(): void
     {
         $this->exchange->setStartDate(new DateTime('01-01-2020'));
         $this->exchange->setEndDate(new DateTime('01-01-2000'));
